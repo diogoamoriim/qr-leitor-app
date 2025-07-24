@@ -1,12 +1,22 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Leitor de QR Code</title>
+    <style>
+      body { font-family: sans-serif; background: #f5f6f8; padding: 2rem; }
+      h1 { font-size: 2rem; }
+      video { max-width: 100%; border: 2px solid #ccc; margin-top: 1rem; }
+      #qr-result { margin-top: 1rem; }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <h1>Leitor de QR Code</h1>
+    <input type="file" id="fileInput" accept="image/*" />
+    <button id="cameraBtn">Ler com a Câmera</button>
+    <video id="video" autoplay></video>
+    <div id="qr-result"></div>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
