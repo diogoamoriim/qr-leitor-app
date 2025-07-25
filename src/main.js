@@ -56,7 +56,7 @@ function handleQRCode(data) {
     return;
   }
 
-  resultText.innerText = "Conteúdo do QR Code: " + data;
+  resultText.innerText = "Conteúdo detectado: " + data;
 
   if (data.startsWith("http")) {
     window.open(data, "_blank");
@@ -64,19 +64,14 @@ function handleQRCode(data) {
   }
 
   if (data.includes("br.gov.bcb.pix") || data.includes("000201")) {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
-      window.location.href = "intent://brcode#Intent;scheme=br.gov.bcb.pix;package=com.nu.production;end";
-    } else {
-      alert("QR Pix detectado. Por favor, use seu app bancário no celular.");
-    }
+    alert("QR Pix detectado. Copie o código e cole no seu app bancário.");
     return;
   }
 
   if (/^\d{47,48}$/.test(data)) {
-    alert("Código de barras detectado. Copie e cole no seu app bancário.");
+    alert("Código de barras detectado. Copie e cole no app de pagamento.");
     return;
   }
 
-  alert("QR Code lido, mas não reconhecido como link, Pix ou boleto.");
+  alert("QR Code lido, mas não é um link ou cobrança reconhecida.");
 }
