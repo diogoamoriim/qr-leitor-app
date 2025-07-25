@@ -1,62 +1,52 @@
-import jsQR from "jsqr";
 
-const fileInput = document.getElementById("fileInput");
-const cameraBtn = document.getElementById("cameraBtn");
+import jsQR from "https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js";
+
 const video = document.getElementById("video");
-const qrResult = document.getElementById("qr-result");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const resultText = document.getElementById("result");
 
-fileInput.addEventListener("change", async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const img = new Image();
-  img.src = URL.createObjectURL(file);
-
-  img.onload = () => {
-    const canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
-
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const code = jsQR(imageData.data, imageData.width, imageData.height);
-
-    handleQRCode(code?.data);
-  };
+document.getElementById("abrirCamera").addEventListener("click", () => {
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+    .then((stream) => {
+      video.srcObject = stream;
+      video.play();
+      const scanInterval = setInterval(() => {
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const code = jsQR(imageData.data, canvas.width, canvas.height);
+          if (code) {
+            clearInterval(scanInterval);
+            handleQRCode(code.data);
+          }
+        }
+      }, 500);
+    })
+    .catch(err => {
+      resultText.innerText = "Erro ao acessar a câmera.";
+      console.error(err);
+    });
 });
 
-//abre a câmera para leitura de QR Code
-cameraBtn.addEventListener("click", async () => {
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    alert("A câmera não é suportada neste navegador.");
-    return;
-  }
-
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-    video.srcObject = stream;
-
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    const scan = () => {
-      if (video.readyState === video.HAVE_ENOUGH_DATA) {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const code = jsQR(imageData.data, imageData.width, imageData.height);
-        if (code) {
-          handleQRCode(code.data);
-          stream.getTracks().forEach(track => track.stop());
-        }
-      }
-      requestAnimationFrame(scan);
-    };
-    scan();
-  } catch (err) {
-    alert("Erro ao acessar a câmera: " + err.message);
+document.getElementById("fileInput").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const img = new Image();
+  img.src = URL.createObjectURL(file);
+  img.onload = () => {
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const code = jsQR(imageData.data, canvas.width, canvas.height);
+    if (code) {
+      handleQRCode(code.data);
+    } else {
+      resultText.innerText = "Nenhum QR Code detectado.";
+    }
   }
 });
 
@@ -66,18 +56,27 @@ function handleQRCode(data) {
     return;
   }
 
-  qrResult.innerText = "Conteúdo do QR Code: " + data;
+  resultText.innerText = "Conteúdo do QR Code: " + data;
 
   if (data.startsWith("http")) {
     window.open(data, "_blank");
-  } else if (data.includes("br.gov.bcb.pix")) {
-    const match = data.match(/(br\.gov\.bcb\.pix[^\s]*)/i);
-    if (match) {
-      window.location.href = "https://" + match[1];
-    } else {
-      alert("QR Pix detectado, mas link não encontrado.");
-    }
-  } else {
-    alert("QR Code não contém um link válido.");
+    return;
   }
+
+  if (data.includes("br.gov.bcb.pix") || data.includes("000201")) {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      window.location.href = "intent://brcode#Intent;scheme=br.gov.bcb.pix;package=com.nu.production;end";
+    } else {
+      alert("QR Pix detectado. Por favor, use seu app bancário no celular.");
+    }
+    return;
+  }
+
+  if (/^\d{47,48}$/.test(data)) {
+    alert("Código de barras detectado. Copie e cole no seu app bancário.");
+    return;
+  }
+
+  alert("QR Code lido, mas não reconhecido como link, Pix ou boleto.");
 }

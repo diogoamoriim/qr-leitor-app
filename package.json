@@ -1,13 +1,11 @@
+
 {
-  "name": "qr-leitor-app",
+  "name": "qr-leitor-inteligente",
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
-  },
-  "dependencies": {
-    "jsqr": "^1.4.0"
   },
   "devDependencies": {
     "vite": "^4.5.0"
