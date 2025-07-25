@@ -1,6 +1,6 @@
 
 {
-  "name": "qr-reader-final-app",
+  "name": "qr-reader-corrigido-v2",
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
