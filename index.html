@@ -1,30 +1,38 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>QR Leitor Inteligente</title>
-    <link rel="stylesheet" href="./styles/style.css">
-  </head>
-  <body>
-    <header>
-      <h1>Leitor Inteligente de QR Code</h1>
-    </header>
-    <main class="container">
-      <section class="conteudo-container">
-        <p>Use sua câmera ou envie uma imagem para detectar formas de pagamento.</p>
-        <button id="abrirCamera">📷 Abrir câmera</button>
-        <input type="file" id="fileInput" accept="image/*">
-        <video id="video" autoplay muted playsinline></video>
-        <canvas id="canvas" style="display:none;"></canvas>
-        <p id="result"></p>
-      </section>
-    </main>
-    <footer>
-      <p>&copy; 2025 QR Leitor App</p>
-      <p>Desenvolvido por Diogo Amorim</p>
-    </footer>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leitor de QR Code</title>
+  <link rel="stylesheet" href="/styles/style.css" />
+</head>
+
+<body>
+  <header class="cabecalho">
+    <h1>Leitor de QR Code</h1>
+  </header>
+
+  <main class="apresentacao">
+    <section class="apresentacao__conteudo">
+      
+      <p>Use a câmera do seu dispositivo ou selecione uma imagem para ler o QR Code.</p>
+
+      <video id="video" autoplay></video>
+      <button id="cameraBtn">Ler com a Câmera</button>
+      <input type="file" id="fileInput" accept="image/*" />
+      <div id="qr-result"></div>
+
+    </section>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+
+  <footer class="rodape">
+    <p>Este projeto é uma demonstração de leitura de QR Codes usando JavaScript.</p>
+    <p>Desenvolvido por <a class="link-diogo" href="https://github.com/diogoamoriim"> Diogo Amorim</a>
+
+  </footer>
+</body>
+
 </html>

@@ -1,62 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Krona+One&family=Montserrat:ital@0;1&display=swap');
+
+:root {
+    --cor-primaria: #181C14;
+    --cor-secundaria: #ECDFCC;
+    --cor-terciaria: #697565;
+    --cor-hover: #3C3D37;
+
+    --fonte-primaria: 'Krona One', sans-serif;
+    --fonte-secundaria: 'Montserrat', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background: #f8f9fa;
-  margin: 0;
-  padding: 0;
-  text-align: center;
+    font-family: var(--fonte-primaria);
+    background: var(--cor-primaria);
+    padding: 2rem;
 }
 
-.container {
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 45vh;
-  margin: auto;
-  padding: 10% 15%;
+.cabecalho {
+    padding: 2rem;
+    text-align: center;
+    color: var(--cor-secundaria);
+    border-radius: 5px;
 }
 
-.conteudo-container {
-  align-items: center;
-  background-color: white;
-  padding: 2em;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-
+.apresentacao {
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    color: var(--cor-secundaria);
+    padding: 10% 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 82px;
 }
 
-header,
-footer {
-  background: #007bff;
-  color: white;
-  padding: 1em 0;
+.apresentacao__conteudo {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 }
 
-main {
-  padding: 2em;
+h1 {
+    font-family: var(--fonte-primaria);
+    font-size: 2rem;
+    color: var(--cor-secundaria);
+
 }
 
 video {
-  max-width: 100%;
+    max-width: 100%;
+    border: 2px solid var(--cor-terciaria);
+    margin-top: 1rem;
 }
 
+#qr-result {
+    font-family: var(--fonte-secundaria);
+    color: var(--cor-secundaria);
+    margin-top: 1rem;
+}
+
+#fileInput {
+    background-color: var(--cor-terciaria);
+    
+}
+
+#cameraBtn {
+    background-color: var(--cor-terciaria);
+    color: var(--cor-secundaria);
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+#cameraBtn:hover {
+    background-color: var(--cor-hover);
+}
+
+.rodape {
+    
+    padding: 24px 10px;
+    color: var(--cor-secundaria);
+    background-color: var(--cor-terciaria);
+    text-align: center;
+    font-family: var(--fonte-secundaria);
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.link-diogo {
+    color: var(--cor-hover);
+    text-decoration: none;
+}
+
+.link-diogo:hover {
+    text-decoration: underline;
+}
 
 @media (max-width: 1200px) {
 
-  header, footer {
-    padding: 10%;
-    justify-content: center;
-  }
+    .cabecalho {
+        padding: 10%;
+    }
 
-  .container {
-    flex-direction: column;
-    padding: 5%;
-  }
+    .cabecalho__menu {
+        justify-content: center;
+    }
 
-  .conteudo-container {
-    width: auto;
-  }
+    .apresentacao {
+        flex-direction: column-reverse;
+        padding: 5%;
+    }
 
-
+    .apresentacao__conteudo {
+        width: auto;
+    }
 }
